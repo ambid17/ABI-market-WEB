@@ -1,7 +1,17 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import "https://cdn.jsdelivr.net/npm/react/umd/react.production.min.js";
+import "bootstrap/dist/css/bootstrap.min.css";
+import {
+  Container,
+  Nav,
+  Navbar,
+  NavbarBrand,
+  NavbarCollapse,
+  NavbarToggle,
+  NavLink,
+} from "react-bootstrap";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,10 +34,30 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Navbar expand="sm" className="bg-body-tertiary">
+          <Container>
+            <NavbarBrand>ABI Market</NavbarBrand>
+            <NavbarToggle aria-controls="basic-navbar-nav" />
+            <NavbarCollapse>
+              <Nav className="me-auto">
+                <NavLink>
+                  <Link href={"/"} className="text-black">
+                    Home
+                  </Link>
+                </NavLink>
+                <NavLink>
+                  <Link href={"/market"} className="text-black">
+                    Market
+                  </Link>
+                </NavLink>
+              </Nav>
+            </NavbarCollapse>
+          </Container>
+        </Navbar>
         {children}
       </body>
     </html>

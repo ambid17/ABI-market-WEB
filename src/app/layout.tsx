@@ -12,6 +12,8 @@ import {
   NavLink,
 } from "react-bootstrap";
 import Link from "next/link";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import TanstackProvider from "./tanstackProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,32 +35,32 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const queryClient = new QueryClient();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navbar expand="sm" className="bg-body-tertiary">
-          <Container>
-            <NavbarBrand>ABI Market</NavbarBrand>
-            <NavbarToggle aria-controls="basic-navbar-nav" />
-            <NavbarCollapse>
-              <Nav className="me-auto">
-                <NavLink>
-                  <Link href={"/"} className="text-black">
-                    Home
-                  </Link>
-                </NavLink>
-                <NavLink>
-                  <Link href={"/market"} className="text-black">
-                    Market
-                  </Link>
-                </NavLink>
-              </Nav>
-            </NavbarCollapse>
-          </Container>
-        </Navbar>
-        {children}
+        <TanstackProvider>
+          <Navbar expand="sm" className="bg-body-tertiary">
+            <Container>
+              <NavbarBrand>ABI Market</NavbarBrand>
+              <NavbarToggle aria-controls="basic-navbar-nav" />
+              <NavbarCollapse>
+                <Nav className="me-auto">
+                    <Link href={"/"} className="text-black nav-link">
+                      Home
+                    </Link>
+                    <Link href={"/market"} className="text-black nav-link">
+                      Market
+                    </Link>
+                </Nav>
+              </NavbarCollapse>
+            </Container>
+          </Navbar>
+          {children}
+        </TanstackProvider>
       </body>
     </html>
   );

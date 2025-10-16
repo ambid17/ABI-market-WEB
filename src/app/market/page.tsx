@@ -14,16 +14,22 @@ import {
   CardTitle,
 } from "react-bootstrap";
 import MarketView from "./components/marketView";
+import CategoryFilter from "./components/categoryFilter";
 
 export type Item = {
   name: string;
   itemType: string;
-  tier?: number;
-  currentPrice?: number;
-  isFavorite?: boolean;
+  tier: number;
+  priceHistory: ItemPrice[];
+  isFavorite: boolean;
 };
 
-type ItemType = {
+export type ItemPrice = {
+  price: number;
+  date: Date;
+};
+
+export type ItemType = {
   name: string;
   subTypes?: ItemType[];
 };
@@ -68,64 +74,39 @@ export default function MarketPage() {
   ];
 
   const items: Item[] = [
-    { name: "Kelsey Fire Helmet", itemType: "Helmet", tier: 1 },
+    {
+      name: "Kelsey Fire Helmet",
+      itemType: "Helmet",
+      tier: 1,
+      isFavorite: false,
+      priceHistory: [{ price: 100, date: new Date() }],
+    },
     {
       name: "Lightweight Safety Helmet",
       itemType: "Helmet",
       tier: 1,
       isFavorite: true,
-      currentPrice: 100.45,
+      priceHistory: [{ price: 100, date: new Date() }],
     },
   ];
-
-  const getLeftNav = () => {
-    return (
-      <div className="bg-slate-700 overflow-auto">
-        <Accordion defaultActiveKey="0">
-          {itemTypes.map((itemType) => (
-            <AccordionItem eventKey={itemType.name}>
-              <AccordionHeader>{itemType.name}</AccordionHeader>
-              <AccordionBody>
-                <div className="flex flex-col">
-                  {itemType.subTypes?.map((subtype) => (
-                    <p
-                      onClick={() => {
-                        setSelectedItem(undefined);
-                        setSelectedItemType(subtype);
-                      }}
-                      className={
-                        selectedItemType?.name == subtype.name
-                          ? "bg-slate-100"
-                          : ""
-                      }
-                    >
-                      {subtype.name}
-                    </p>
-                  ))}
-                </div>
-              </AccordionBody>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </div>
-    );
-  };
 
   const getItemsOfType = () => {
     return (
       <div className="grid p-4">
-        {items.filter(item => item.itemType == selectedItemType?.name).map((item) => (
-          <Card className="p-4">
-            <CardImg variant="top" src="holder.js/100px180" />
-            <CardBody>
-              <CardTitle>{item.name}</CardTitle>
-              <CardSubtitle className="mb-2 text-muted">
-                Tier: {item.tier}
-              </CardSubtitle>
-              <Button onClick={() => setSelectedItem(item)}>Select</Button>
-            </CardBody>
-          </Card>
-        ))}
+        {items
+          .filter((item) => item.itemType == selectedItemType?.name)
+          .map((item) => (
+            <Card className="p-4" key={item.name}>
+              <CardImg variant="top" src="holder.js/100px180" />
+              <CardBody>
+                <CardTitle>{item.name}</CardTitle>
+                <CardSubtitle className="mb-2 text-muted">
+                  Tier: {item.tier}
+                </CardSubtitle>
+                <Button onClick={() => setSelectedItem(item)}>Select</Button>
+              </CardBody>
+            </Card>
+          ))}
       </div>
     );
   };
@@ -142,7 +123,16 @@ export default function MarketPage() {
   };
   return (
     <div className="flex flex-row h-11/12">
-      {getLeftNav()}
+      <CategoryFilter
+        itemTypes={itemTypes}
+        selectedItemType={selectedItemType}
+        setSelectedItem={(item) => {
+          setSelectedItem(item);
+        }}
+        setSelectedItemType={(itemType) => {
+          setSelectedItemType(itemType)
+        }}
+      />
       {getSelectedItemView()}
     </div>
   );

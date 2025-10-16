@@ -8,7 +8,6 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { Item } from "../page";
 import { useEffect, useState } from "react";
 import {
   Button,
@@ -17,6 +16,7 @@ import {
   FormGroup,
   FormLabel,
 } from "react-bootstrap";
+import { Item } from "@/app/utils/types";
 
 type MarketViewProps = {
   selectedItem: Item;

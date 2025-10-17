@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import MarketView from "./components/marketView";
+import MarketView from "./components/MarketView/marketView";
 import ItemSelector from "./components/CategoryFilter/categoryFilter";
 import { Item, ItemCategory } from "../utils/types";
 import {
@@ -14,8 +14,15 @@ import NewItem from "./components/NewItem/newItem";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
+export const defaultItem: Item = {
+  id: 0,
+  name: "",
+  itemCategoryId: 0,
+  itemSubcategoryId: 0,
+};
+
 export default function MarketPage() {
-  const [selectedItem, setSelectedItem] = useState<Item>();
+  const [selectedItem, setSelectedItem] = useState<Item>(defaultItem);
   const [isCreatingNewItem, setIsCreatingNewItem] = useState<boolean>(false);
 
   const fetchCategories = (): Promise<ItemCategory[]> =>
@@ -49,7 +56,7 @@ export default function MarketPage() {
   function getMainView() {
     if (isCreatingNewItem) {
       return <NewItem itemCategories={itemCategories} />;
-    } else if (selectedItem) {
+    } else if (selectedItem.id > 0) {
       return <MarketView selectedItem={selectedItem} />;
     } else {
       return <p>Select an item</p>;

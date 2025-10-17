@@ -5,7 +5,7 @@ export type Item = {
   itemCategory?: ItemCategory;
   itemSubcategoryId: number;
   itemSubcategory?: ItemSubcategory;
-  priceHistory?: ItemPrice[];
+  itemPrices?: ItemPrice[];
 };
 
 export type ItemPrice = {

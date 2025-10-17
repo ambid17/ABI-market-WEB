@@ -1,3 +1,5 @@
+import { Item, ItemCategory, ItemSubcategory } from "@/app/utils/types";
+import { useState } from "react";
 import {
   Accordion,
   AccordionBody,
@@ -5,10 +7,6 @@ import {
   AccordionItem,
   Button,
 } from "react-bootstrap";
-import { Item, ItemCategory, ItemSubcategory } from "@/app/utils/types";
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 
 type ItemSelector = {
   itemCategories: ItemCategory[];
@@ -22,22 +20,29 @@ export default function ItemSelector({
   items,
   selectedItem,
   setSelectedItem,
-  setIsCreatingNewItem
+  setIsCreatingNewItem,
 }: ItemSelector) {
   const [selectedItemSubcategory, setSelectedItemSubcategory] =
     useState<ItemSubcategory>();
 
   function getCategorySelector() {
+    if (!itemCategories) {
+      return <></>;
+    }
     return (
       <div className="bg-slate-700 overflow-auto">
         <Accordion defaultActiveKey="0">
           {itemCategories?.map((itemCategory) => (
-            <AccordionItem eventKey={itemCategory.name} key={itemCategory.name}>
+            <AccordionItem
+              eventKey={itemCategory.id.toString()}
+              key={itemCategory.id}
+            >
               <AccordionHeader>{itemCategory.name}</AccordionHeader>
               <AccordionBody>
                 <div className="flex flex-col">
                   {itemCategory.itemSubcategories?.map((subcategory) => (
                     <p
+                      key={subcategory.id}
                       onClick={() => {
                         setSelectedItemSubcategory(subcategory);
                       }}
@@ -46,7 +51,6 @@ export default function ItemSelector({
                           ? "bg-slate-100"
                           : ""
                       }
-                      key={subcategory.id}
                     >
                       {subcategory.name}
                     </p>
@@ -72,13 +76,17 @@ export default function ItemSelector({
           )
           .map((item) => (
             <p
-              onClick={() => setSelectedItem(item)}
+              key={item.id}
+              onClick={() => {
+                setSelectedItem(item);
+                setIsCreatingNewItem(false);
+              }}
               className={selectedItem?.name == item.name ? "bg-slate-100" : ""}
             >
               {item.name}
             </p>
           ))}
-          <Button onClick={() => setIsCreatingNewItem(true)}>+</Button>
+        <Button onClick={() => setIsCreatingNewItem(true)}>+</Button>
       </div>
     );
   }

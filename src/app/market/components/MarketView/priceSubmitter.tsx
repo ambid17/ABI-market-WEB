@@ -30,7 +30,12 @@ export default function PriceSubmitter({ selectedItem }: PriceSubmitterProps) {
     },
   });
 
-  function submitPrice() {
+  function submitPrice(e: any) {
+    e.preventDefault();
+    if(inputPrice <= 0){
+      return;
+    }
+
     var itemPrice: ItemPrice = {
       id: 0,
       itemId: selectedItem.id,
@@ -38,6 +43,7 @@ export default function PriceSubmitter({ selectedItem }: PriceSubmitterProps) {
       price: inputPrice,
     };
     mutation.mutate(itemPrice);
+    setInputPrice(0);
   }
 
   function onPriceUpdate(priceUpdate: string) {
@@ -51,7 +57,7 @@ export default function PriceSubmitter({ selectedItem }: PriceSubmitterProps) {
 
   return (
     <div className="p-4 border">
-      <Form>
+      <Form onSubmit={submitPrice}>
         <FormGroup>
           <FormLabel>Submit the current price</FormLabel>
           <FormControl
@@ -59,13 +65,14 @@ export default function PriceSubmitter({ selectedItem }: PriceSubmitterProps) {
             min="0"
             step="0.01"
             value={inputPrice == 0 ? "" : inputPrice}
-            onChange={(e) => setInputPrice(parseFloat(e.target.value))}
+            onChange={(e) => onPriceUpdate(e.target.value)}
           ></FormControl>
           <Button
             variant="primary"
             type="button"
             onClick={submitPrice}
             className="mt-4"
+            disabled={inputPrice <= 0}
           >
             Submit
           </Button>

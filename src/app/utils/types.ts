@@ -27,3 +27,13 @@ export type ItemSubcategory = {
   name: string;
   categoryId: number;
 };
+
+export type GraphDisplayItem = {
+  itemPrices: GraphItemPrice[];
+};
+
+export type GraphItemPrice = {
+  price: number;
+  date: string;
+  id: number;
+}

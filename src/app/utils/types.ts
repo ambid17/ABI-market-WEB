@@ -2,11 +2,16 @@ export type Item = {
   id: number;
   name: string;
   itemCategoryId: number;
+  itemCategory?: ItemCategory;
   itemSubcategoryId: number;
-  priceHistory: ItemPrice[];
+  itemSubcategory?: ItemSubcategory;
+  priceHistory?: ItemPrice[];
 };
 
 export type ItemPrice = {
+  id: number;
+  itemId: number;
+  item?: Item;
   price: number;
   date: Date;
 };

@@ -3,41 +3,35 @@ import {
   AccordionBody,
   AccordionHeader,
   AccordionItem,
+  Button,
 } from "react-bootstrap";
 import { Item, ItemCategory, ItemSubcategory } from "@/app/utils/types";
 import { useState } from "react";
-import { itemCategories, items } from "@/app/utils/mockData";
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 type ItemSelector = {
+  itemCategories: ItemCategory[];
+  items: Item[];
   selectedItem: Item | undefined;
   setSelectedItem(item: Item | undefined): void;
+  setIsCreatingNewItem(isCreatingNewItem: boolean): void;
 };
 export default function ItemSelector({
+  itemCategories,
+  items,
   selectedItem,
   setSelectedItem,
+  setIsCreatingNewItem
 }: ItemSelector) {
   const [selectedItemSubcategory, setSelectedItemSubcategory] =
     useState<ItemSubcategory>();
 
-  const { isPending, error, data } = useQuery({
-    queryKey: ["itemCategories"],
-    queryFn: () => fetch("http://localhost:5255/Market/getCategories"),
-  });
-
-  if (isPending) {
-    return "Loading";
-  }
-
-  if (error) {
-    return `error has occurred: ${error.message}`;
-  }
-
-  function getCategoryFilter() {
+  function getCategorySelector() {
     return (
       <div className="bg-slate-700 overflow-auto">
         <Accordion defaultActiveKey="0">
-          {itemCategories.map((itemCategory) => (
+          {itemCategories?.map((itemCategory) => (
             <AccordionItem eventKey={itemCategory.name} key={itemCategory.name}>
               <AccordionHeader>{itemCategory.name}</AccordionHeader>
               <AccordionBody>
@@ -52,7 +46,7 @@ export default function ItemSelector({
                           ? "bg-slate-100"
                           : ""
                       }
-                      key={subcategory.name}
+                      key={subcategory.id}
                     >
                       {subcategory.name}
                     </p>
@@ -73,7 +67,7 @@ export default function ItemSelector({
     return (
       <div className="flex flex-col p-4 border">
         {items
-          .filter(
+          ?.filter(
             (item) => item.itemSubcategoryId == selectedItemSubcategory.id
           )
           .map((item) => (
@@ -84,13 +78,14 @@ export default function ItemSelector({
               {item.name}
             </p>
           ))}
+          <Button onClick={() => setIsCreatingNewItem(true)}>+</Button>
       </div>
     );
   }
 
   return (
     <>
-      {getCategoryFilter()}
+      {getCategorySelector()}
       {getItemSelector()}
     </>
   );

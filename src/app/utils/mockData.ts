@@ -29,13 +29,13 @@ export const items: Item[] = [
     name: "Kelsey Fire Helmet",
     itemCategoryId: 1,
     itemSubcategoryId: 1,
-    priceHistory: [{ price: 100, date: new Date() }],
+    priceHistory: [{ price: 100, date: new Date(), itemId: 1, id: 1 }],
   },
   {
     id: 2,
     name: "Lightweight Safety Helmet",
     itemCategoryId: 1,
     itemSubcategoryId: 1,
-    priceHistory: [{ price: 100, date: new Date() }],
+    priceHistory: [{ price: 100, date: new Date(), itemId: 2, id: 2 }],
   },
 ];

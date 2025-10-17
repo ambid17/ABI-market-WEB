@@ -24,6 +24,7 @@ type MarketViewProps = {
 
 export default function MarketView({ selectedItem }: MarketViewProps) {
   const [inputPrice, setInputPrice] = useState<number>(0.0);
+  const priceHistory = selectedItem.priceHistory ?? [];
 
   function submitPrice() {
     console.log(`submitting: ${inputPrice}`);
@@ -36,7 +37,7 @@ export default function MarketView({ selectedItem }: MarketViewProps) {
           <p>
             CurrentPrice:{" "}
             {
-              selectedItem.priceHistory[selectedItem.priceHistory.length - 1]
+              priceHistory[priceHistory.length - 1]
                 .price
             }
           </p>

@@ -45,7 +45,7 @@ export default function MarketView({ selectedItem }: MarketViewProps) {
   const existingItem = item ?? defaultItem;
   
   const getCurrentPrice = () => {
-    if(!existingItem.itemPrices){
+    if(!existingItem.itemPrices || existingItem.itemPrices.length === 0){
       return "No price data";
     }else{
       const priceHistory = existingItem.itemPrices ?? []
@@ -56,7 +56,7 @@ export default function MarketView({ selectedItem }: MarketViewProps) {
 
   
   return (
-    <div className="flex flex-row justify-around">
+    <div className="flex flex-row justify-around p-4">
       <div className="flex flex-col">
         <div>
           <p>Item Name: {selectedItem.name}</p>

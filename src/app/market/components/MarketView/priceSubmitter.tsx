@@ -11,10 +11,10 @@ import {
 } from "react-bootstrap";
 
 type PriceSubmitterProps = {
-    selectedItem: Item;
-}
+  selectedItem: Item;
+};
 
-export default function PriceSubmitter({selectedItem}: PriceSubmitterProps) {
+export default function PriceSubmitter({ selectedItem }: PriceSubmitterProps) {
   const queryClient = useQueryClient();
   const [inputPrice, setInputPrice] = useState<number>(0.0);
 
@@ -32,38 +32,45 @@ export default function PriceSubmitter({selectedItem}: PriceSubmitterProps) {
 
   function submitPrice() {
     var itemPrice: ItemPrice = {
-        id: 0,
-        itemId: selectedItem.id,
-        date: new Date(),
-        price: inputPrice,
-    }
+      id: 0,
+      itemId: selectedItem.id,
+      date: new Date(),
+      price: inputPrice,
+    };
     mutation.mutate(itemPrice);
   }
 
-  function onPriceUpdate(priceUpdate: string){
+  function onPriceUpdate(priceUpdate: string) {
     var parsedPrice = parseFloat(priceUpdate);
-    if(!Number.isNaN(parsedPrice)){
-        setInputPrice(parsedPrice);
-    }else{
-        setInputPrice(0);
+    if (!Number.isNaN(parsedPrice)) {
+      setInputPrice(parsedPrice);
+    } else {
+      setInputPrice(0);
     }
   }
 
   return (
-    <Form>
-      <FormGroup>
-        <FormLabel>Submit the current price</FormLabel>
-        <FormControl
-          type="number"
-          min="0"
-          step="0.01"
-          value={inputPrice == 0 ? "" : inputPrice}
-          onChange={(e) => setInputPrice(parseFloat(e.target.value))}
-        ></FormControl>
-        <Button variant="primary" type="button" onClick={submitPrice}>
-          Submit
-        </Button>
-      </FormGroup>
-    </Form>
+    <div className="p-4 border">
+      <Form>
+        <FormGroup>
+          <FormLabel>Submit the current price</FormLabel>
+          <FormControl
+            type="number"
+            min="0"
+            step="0.01"
+            value={inputPrice == 0 ? "" : inputPrice}
+            onChange={(e) => setInputPrice(parseFloat(e.target.value))}
+          ></FormControl>
+          <Button
+            variant="primary"
+            type="button"
+            onClick={submitPrice}
+            className="mt-4"
+          >
+            Submit
+          </Button>
+        </FormGroup>
+      </Form>
+    </div>
   );
 }

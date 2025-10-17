@@ -12,7 +12,7 @@ type ItemSelector = {
   itemCategories: ItemCategory[];
   items: Item[];
   selectedItem: Item | undefined;
-  setSelectedItem(item: Item | undefined): void;
+  setSelectedItem(item: Item): void;
   setIsCreatingNewItem(isCreatingNewItem: boolean): void;
 };
 export default function ItemSelector({
@@ -81,7 +81,7 @@ export default function ItemSelector({
                 setSelectedItem(item);
                 setIsCreatingNewItem(false);
               }}
-              className={selectedItem?.name == item.name ? "bg-slate-100" : ""}
+              className={selectedItem?.name == item.name ? "bg-slate-100 p-4" : "p-4"}
             >
               {item.name}
             </p>

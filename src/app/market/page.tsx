@@ -64,7 +64,7 @@ export default function MarketPage() {
   }
 
   return (
-    <div className="flex flex-row h-11/12">
+    <div className="flex flex-row overflow-auto">
       <ItemSelector
         itemCategories={itemCategories ?? []}
         items={items ?? []}

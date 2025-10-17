@@ -81,7 +81,7 @@ export default function ItemSelector({
                 setSelectedItem(item);
                 setIsCreatingNewItem(false);
               }}
-              className={selectedItem?.name == item.name ? "bg-slate-100 p-4" : "p-4"}
+              className={selectedItem?.name == item.name ? "bg-slate-100 pt-1 pb-1" : "pt-1 pb-1"}
             >
               {item.name}
             </p>

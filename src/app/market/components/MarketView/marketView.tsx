@@ -67,7 +67,7 @@ export default function MarketView({ selectedItem }: MarketViewProps) {
         </div>
       </div>
 
-      <ResponsiveContainer width={500} height="100%">
+      <ResponsiveContainer width={800} height="100%">
         <LineChart
           data={existingItem.itemPrices}
           margin={{
